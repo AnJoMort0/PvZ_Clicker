@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PvZ Clicker Prototype</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game">
+      <header>
+        <h1>PvZ Clicker Prototype</h1>
+        <p>Click the sunflower to gather sun and buy upgrades.</p>
+      </header>
+
+      <section class="stats" aria-live="polite">
+        <div><span class="label">Sun:</span> <span id="sun-count">0</span></div>
+        <div><span class="label">Per click:</span> <span id="sun-per-click">1</span></div>
+        <div><span class="label">Passive / sec:</span> <span id="sun-per-second">0</span></div>
+      </section>
+
+      <section class="play-area">
+        <button id="sunflower" class="sunflower" type="button" aria-label="Collect sun">
+          🌻
+        </button>
+        <p id="event-log" class="event-log">A cheerful sunflower is waiting for a click.</p>
+      </section>
+
+      <section class="upgrades">
+        <h2>Upgrades</h2>
+        <button id="upgrade-passive" class="upgrade-btn" type="button">
+          Sunflower Growth (+1 passive/sec)
+          <span class="cost">Cost: <span id="cost-passive">25</span></span>
+          <span class="owned">Owned: <span id="owned-passive">0</span></span>
+        </button>
+
+        <button id="upgrade-click" class="upgrade-btn" type="button">
+          Richer Sun (+1 sun/click)
+          <span class="cost">Cost: <span id="cost-click">20</span></span>
+          <span class="owned">Owned: <span id="owned-click">0</span></span>
+        </button>
+
+        <button id="upgrade-drop" class="upgrade-btn" type="button">
+          Sky Sun Drop (+1 big drop every 12s)
+          <span class="cost">Cost: <span id="cost-drop">40</span></span>
+          <span class="owned">Owned: <span id="owned-drop">0</span></span>
+        </button>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
