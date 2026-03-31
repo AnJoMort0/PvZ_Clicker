@@ -7,47 +7,76 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main class="game">
-      <header>
-        <h1>PvZ Clicker Prototype</h1>
-        <p>Click the sunflower to gather sun and buy upgrades.</p>
-      </header>
-
-      <section class="stats" aria-live="polite">
-        <div><span class="label">Sun:</span> <span id="sun-count">0</span></div>
-        <div><span class="label">Per click:</span> <span id="sun-per-click">1</span></div>
-        <div><span class="label">Passive / sec:</span> <span id="sun-per-second">0</span></div>
+    <main class="game-shell">
+      <section class="seed-rail" aria-label="Plant categories">
+        <div id="category-packets" class="packet-column"></div>
+        <div id="upgrade-packets" class="packet-column packet-column-secondary"></div>
       </section>
 
-      <section class="play-area">
-        <button id="sunflower" class="sunflower" type="button" aria-label="Collect sun">
-          🌻
-        </button>
-        <p id="event-log" class="event-log">A cheerful sunflower is waiting for a click.</p>
-      </section>
+      <section class="board-shell" aria-label="Game board">
+        <header class="resource-bar">
+          <div class="sun-bank" aria-live="polite">
+            <div class="sun-bank__icon art-slot" aria-hidden="true">☀️</div>
+            <div class="sun-bank__meta">
+              <span class="resource-label">Sun</span>
+              <strong id="sun-count">0</strong>
+            </div>
+          </div>
 
-      <section class="upgrades">
-        <h2>Upgrades</h2>
-        <button id="upgrade-passive" class="upgrade-btn" type="button">
-          Sunflower Growth (+1 passive/sec)
-          <span class="cost">Cost: <span id="cost-passive">25</span></span>
-          <span class="owned">Owned: <span id="owned-passive">0</span></span>
-        </button>
+          <section class="resource-strip" aria-label="Income stats">
+            <article class="resource-chip">
+              <span class="resource-chip__label">Per click</span>
+              <strong id="sun-per-click">1</strong>
+            </article>
+            <article class="resource-chip">
+              <span class="resource-chip__label">Passive</span>
+              <strong id="sun-per-second">0</strong>
+            </article>
+            <article class="resource-chip">
+              <span class="resource-chip__label">Sky drop</span>
+              <strong id="drop-rate">0</strong>
+            </article>
+          </section>
+        </header>
 
-        <button id="upgrade-click" class="upgrade-btn" type="button">
-          Richer Sun (+1 sun/click)
-          <span class="cost">Cost: <span id="cost-click">20</span></span>
-          <span class="owned">Owned: <span id="owned-click">0</span></span>
-        </button>
+        <section class="lawn-frame">
+          <div class="sky-band" aria-hidden="true">
+            <div class="sky-band__sun">☀️</div>
+            <div class="sky-band__cloud sky-band__cloud--one"></div>
+            <div class="sky-band__cloud sky-band__cloud--two"></div>
+          </div>
 
-        <button id="upgrade-drop" class="upgrade-btn" type="button">
-          Sky Sun Drop (+1 big drop every 12s)
-          <span class="cost">Cost: <span id="cost-drop">40</span></span>
-          <span class="owned">Owned: <span id="owned-drop">0</span></span>
-        </button>
+          <div class="lawn-grid" aria-hidden="true">
+            <span class="lane-number">1</span>
+            <span class="lane-number">2</span>
+            <span class="lane-number">3</span>
+            <span class="lane-number">4</span>
+            <span class="lane-number">5</span>
+          </div>
+
+          <button id="sunflower" class="hero-plant" type="button" aria-label="Collect sun">
+            <span class="hero-plant__token art-slot">🌻</span>
+            <span class="hero-plant__label">Sunflower</span>
+          </button>
+
+          <aside class="board-side-info">
+            <div class="board-side-info__card">
+              <span class="board-side-info__label">Lane</span>
+              <strong>3</strong>
+            </div>
+            <div class="board-side-info__card">
+              <span class="board-side-info__label">Weather</span>
+              <strong id="weather-level">Clear</strong>
+            </div>
+          </aside>
+        </section>
+
+        <section class="event-panel" aria-live="polite">
+          <p id="event-log">Your sunflower is ready. Gather sun and start building a lawn economy.</p>
+        </section>
       </section>
     </main>
 
-    <script src="script.js"></script>
+    <script type="module" src="src/main.js"></script>
   </body>
 </html>

@@ -1,30 +1,27 @@
-# PvZ_Clicker
+# PvZ Clicker
 
-Simple game to show off Rogue Garden's art style, test features, and prototype clicker systems for bigger projects.
+`PvZ Clicker` is a small browser prototype exploring what a Plants vs. Zombies-inspired incremental game could feel like. It's a way for me to show off Rogue Garden's art style, test features, and prototype clicker systems for bigger projects.
 
-## Platform recommendation
+The current version is intentionally lightweight: a playable static web project built with vanilla HTML, CSS, and JavaScript.
 
-For your goals (fast iteration, browser target like itch.io, hand-drawn art tests, and simple incremental mechanics), the best starting point is:
+## Why this repo exists
 
-- **HTML + CSS + JavaScript (vanilla)** for this first prototype.
+This repository is also a transparent experiment in working with Codex.
 
-Why:
-- Instant browser play without build tooling.
-- Easy deployment to itch.io as a web game.
-- Low overhead while you explore art style, animations, and game feel.
-- Simple path to scale later into Phaser, Godot Web export, or a custom engine if needed.
+I am using Codex to help design, refactor, and implement parts of the project, but this is not "just vibe coding." I am actively reviewing the changes, reading the code, checking what was done, and asking questions whenever I do not understand something. A big part of this repo is also learning: using the tool to move faster while still staying accountable for the code and the direction of the project.
 
-## Current prototype features
+## Current prototype
 
-- Clickable sunflower placeholder that gives **1 sun per click**.
-- Upgrade: **Sunflower Growth** for passive sun per second.
-- Upgrade: **Richer Sun** to increase sun gained per click.
-- Upgrade: **Sky Sun Drop** that adds periodic big sun drops.
-- Rising upgrade costs to support incremental progression.
+- PvZ-inspired daytime lawn layout with a rectangular board and left-side seed packet navigation
+- Clickable sunflower economy loop
+- Sunflower upgrade line for click income, passive income, and timed sky drops
+- Environment upgrade slot for lawn-wide economy bonuses
+- Expandable structure so more plant families and mechanics can be added without reworking the whole app shell
+- Fixed-size visual slots so future art assets can replace emoji placeholders cleanly
 
 ## Run locally
 
-Open `index.html` directly in your browser, or run a tiny local server:
+You can open `index.html` directly in a browser, or run a tiny local server:
 
 ```bash
 python3 -m http.server 8000
