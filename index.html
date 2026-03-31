@@ -8,72 +8,60 @@
   </head>
   <body>
     <main class="game-shell">
-      <section class="seed-rail" aria-label="Plant categories">
-        <div id="category-packets" class="packet-column"></div>
-        <div id="upgrade-packets" class="packet-column packet-column-secondary"></div>
-      </section>
-
-      <section class="board-shell" aria-label="Game board">
-        <header class="resource-bar">
-          <div class="sun-bank" aria-live="polite">
-            <div class="sun-bank__icon art-slot" aria-hidden="true">☀️</div>
-            <div class="sun-bank__meta">
-              <span class="resource-label">Sun</span>
-              <strong id="sun-count">0</strong>
-            </div>
+      <section class="playfield" aria-label="PvZ clicker board">
+        <header class="top-chrome">
+          <div class="sun-display" aria-live="polite">
+            <div class="sun-display__icon" aria-hidden="true">☀️</div>
+            <div id="sun-count" class="sun-display__value">0</div>
           </div>
 
-          <section class="resource-strip" aria-label="Income stats">
-            <article class="resource-chip">
-              <span class="resource-chip__label">Per click</span>
-              <strong id="sun-per-click">1</strong>
-            </article>
-            <article class="resource-chip">
-              <span class="resource-chip__label">Passive</span>
-              <strong id="sun-per-second">0</strong>
-            </article>
-            <article class="resource-chip">
-              <span class="resource-chip__label">Sky drop</span>
-              <strong id="drop-rate">0</strong>
-            </article>
-          </section>
+          <div id="category-packets" class="seed-bank seed-bank--top" aria-label="Plant lines"></div>
         </header>
 
-        <section class="lawn-frame">
-          <div class="sky-band" aria-hidden="true">
-            <div class="sky-band__sun">☀️</div>
-            <div class="sky-band__cloud sky-band__cloud--one"></div>
-            <div class="sky-band__cloud sky-band__cloud--two"></div>
+        <div class="rate-display" aria-live="polite">
+          <span class="rate-display__icon" aria-hidden="true">☀️</span>
+          <span id="sun-per-second">0</span>
+          <span class="rate-display__unit">/s</span>
+        </div>
+
+        <aside id="upgrade-packets" class="seed-bank seed-bank--side" aria-label="Selected upgrades"></aside>
+
+        <div class="stone-path" aria-hidden="true"></div>
+
+        <section class="lane-scene" aria-label="Garden lane">
+          <div class="lane-scene__grass" aria-hidden="true"></div>
+
+          <div class="lane-scene__mower" aria-hidden="true">
+            <span class="mower__handle"></span>
+            <span class="mower__body"></span>
+            <span class="mower__engine"></span>
+            <span class="mower__wheel mower__wheel--left"></span>
+            <span class="mower__wheel mower__wheel--right"></span>
           </div>
 
-          <div class="lawn-grid" aria-hidden="true">
-            <span class="lane-number">1</span>
-            <span class="lane-number">2</span>
-            <span class="lane-number">3</span>
-            <span class="lane-number">4</span>
-            <span class="lane-number">5</span>
-          </div>
-
-          <button id="sunflower" class="hero-plant" type="button" aria-label="Collect sun">
-            <span class="hero-plant__token art-slot">🌻</span>
-            <span class="hero-plant__label">Sunflower</span>
+          <button id="sunflower" class="plant plant--sunflower" type="button" aria-label="Collect sun from sunflower">
+            <span class="plant__shadow"></span>
+            <span class="sunflower__bloom">🌻</span>
+            <span class="sunflower__stem"></span>
+            <span class="sunflower__leaf sunflower__leaf--left"></span>
+            <span class="sunflower__leaf sunflower__leaf--right"></span>
           </button>
 
-          <aside class="board-side-info">
-            <div class="board-side-info__card">
-              <span class="board-side-info__label">Lane</span>
-              <strong>3</strong>
-            </div>
-            <div class="board-side-info__card">
-              <span class="board-side-info__label">Weather</span>
-              <strong id="weather-level">Clear</strong>
-            </div>
-          </aside>
+          <div id="peashooter-plant" class="plant plant--peashooter" aria-hidden="true">
+            <span class="plant__shadow"></span>
+            <span class="peashooter__head"></span>
+            <span class="peashooter__snout"></span>
+            <span class="peashooter__stem"></span>
+            <span class="peashooter__leaf peashooter__leaf--left"></span>
+            <span class="peashooter__leaf peashooter__leaf--right"></span>
+          </div>
+
+          <span class="pea pea--one" aria-hidden="true"></span>
+          <span class="pea pea--two" aria-hidden="true"></span>
+          <span class="pea pea--three" aria-hidden="true"></span>
         </section>
 
-        <section class="event-panel" aria-live="polite">
-          <p id="event-log">Your sunflower is ready. Gather sun and start building a lawn economy.</p>
-        </section>
+        <p id="event-log" class="sr-only">Your sunflower is ready. Gather sun and start building a lawn economy.</p>
       </section>
     </main>
 

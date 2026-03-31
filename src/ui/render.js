@@ -3,13 +3,11 @@ import { canAfford, getDropAmount } from '../game/economy.js';
 
 export function createRenderer(doc, actions) {
   const elements = {
+    playfield: doc.querySelector('.playfield'),
     categoryPackets: doc.getElementById('category-packets'),
     upgradePackets: doc.getElementById('upgrade-packets'),
     sunCount: doc.getElementById('sun-count'),
-    sunPerClick: doc.getElementById('sun-per-click'),
     sunPerSecond: doc.getElementById('sun-per-second'),
-    dropRate: doc.getElementById('drop-rate'),
-    weatherLevel: doc.getElementById('weather-level'),
     eventLog: doc.getElementById('event-log'),
     sunflowerButton: doc.getElementById('sunflower'),
   };
@@ -22,15 +20,14 @@ export function createRenderer(doc, actions) {
     CATEGORY_DEFINITIONS.forEach((category) => {
       const button = doc.createElement('button');
       button.type = 'button';
-      button.className = `packet ${state.selectedCategory === category.id ? 'is-selected' : ''}`;
+      button.className = `seed-packet seed-packet--primary ${state.selectedCategory === category.id ? 'is-selected' : ''}`;
+      button.setAttribute('aria-label', `${category.name} line.`);
+      button.setAttribute('aria-pressed', String(state.selectedCategory === category.id));
       button.innerHTML = `
-        <div class="packet__topline">
-          <span class="packet__type">${category.typeLabel}</span>
-          <span class="packet__badge">${category.id === 'sunflower' || category.id === 'environment' ? 'Live' : 'Soon'}</span>
-        </div>
-        <div class="art-slot">${category.icon}</div>
-        <h2 class="packet__name">${category.name}</h2>
-        <p class="packet__description">${category.description}</p>
+        <span class="seed-packet__glass">
+          <span class="seed-packet__icon">${category.icon}</span>
+        </span>
+        <span class="seed-packet__price ${category.seedCost == null ? 'seed-packet__price--empty' : ''}">${category.seedCost ?? '0'}</span>
       `;
       button.addEventListener('click', () => actions.selectCategory(category.id));
       elements.categoryPackets.appendChild(button);
@@ -44,29 +41,22 @@ export function createRenderer(doc, actions) {
     upgrades.forEach((upgrade) => {
       const button = doc.createElement('button');
       const isLocked = Boolean(upgrade.locked);
-      const cost = state.upgradeCosts[upgrade.id] ?? 0;
+      const cost = state.upgradeCosts[upgrade.id] ?? upgrade.baseCost ?? 0;
       const owned = state.ownedUpgrades[upgrade.id] ?? 0;
-      const disabled = isLocked || !canAfford(state, cost);
+      const isUnavailable = !isLocked && !canAfford(state, cost);
 
       button.type = 'button';
-      button.className = `packet ${isLocked ? 'is-locked' : ''}`;
-      button.disabled = disabled;
+      button.className = `seed-packet seed-packet--secondary ${isLocked ? 'is-locked' : ''} ${isUnavailable ? 'is-unavailable' : ''} ${owned > 0 ? 'is-owned' : ''}`;
+      button.setAttribute(
+        'aria-label',
+        `${upgrade.name}. ${upgrade.description}${isLocked ? ' Coming later.' : ` Cost ${cost}.`}`
+      );
+      button.setAttribute('aria-disabled', String(isLocked));
       button.innerHTML = `
-        <div class="packet__topline">
-          <span class="packet__type">${state.selectedCategory}</span>
-          <span class="packet__badge">${isLocked ? 'Locked' : owned}</span>
-        </div>
-        <div class="art-slot">${upgrade.icon}</div>
-        <h2 class="packet__name">${upgrade.name}</h2>
-        <p class="packet__description">${upgrade.description}</p>
-        ${
-          isLocked
-            ? ''
-            : `<div class="packet__meta">
-                <span class="packet__cost">${upgrade.costLabel}: ${cost}</span>
-                <span class="packet__owned">Owned: ${owned}</span>
-              </div>`
-        }
+        <span class="seed-packet__glass">
+          <span class="seed-packet__icon">${upgrade.icon}</span>
+        </span>
+        <span class="seed-packet__price">${cost}</span>
       `;
 
       if (!isLocked) {
@@ -75,21 +65,14 @@ export function createRenderer(doc, actions) {
 
       elements.upgradePackets.appendChild(button);
     });
-
-    if (upgrades.every((upgrade) => upgrade.locked)) {
-      const message = doc.createElement('p');
-      message.className = 'lock-copy';
-      message.textContent = 'This plant line is laid out on purpose so future plant families can slot into the same packet system without redesigning the UI.';
-      elements.upgradePackets.appendChild(message);
-    }
   }
 
   function renderHud(state) {
+    const passiveRate = (state.passivePerSecond + getDropAmount(state) / DROP_INTERVAL_SECONDS) * state.globalSunMultiplier;
+
+    elements.playfield.dataset.selectedCategory = state.selectedCategory;
     elements.sunCount.textContent = Math.floor(state.sun);
-    elements.sunPerClick.textContent = `${Math.round(state.perClick * state.globalSunMultiplier)}`;
-    elements.sunPerSecond.textContent = `${state.passivePerSecond} /s`;
-    elements.dropRate.textContent = state.dropOwned > 0 ? `${getDropAmount(state)} / ${DROP_INTERVAL_SECONDS}s` : '0';
-    elements.weatherLevel.textContent = state.weatherOwned > 0 ? `Sunny x${state.weatherOwned}` : 'Clear';
+    elements.sunPerSecond.textContent = Number.isInteger(passiveRate) ? `${passiveRate}` : passiveRate.toFixed(1);
     elements.eventLog.textContent = state.eventText;
   }
 

@@ -5,9 +5,10 @@ export const CATEGORY_DEFINITIONS = [
   {
     id: 'environment',
     name: 'Environment',
-    icon: '🪴',
+    icon: '🪏',
     typeLabel: 'Field',
     description: 'Lawn-wide support upgrades and setup tools.',
+    seedCost: null,
   },
   {
     id: 'sunflower',
@@ -15,13 +16,15 @@ export const CATEGORY_DEFINITIONS = [
     icon: '🌻',
     typeLabel: 'Producer',
     description: 'Build your sun economy first.',
+    seedCost: 25,
   },
   {
     id: 'peashooter',
     name: 'Peashooter',
-    icon: '🌱',
+    icon: '🫛',
     typeLabel: 'Attack',
     description: 'Prepared for future damage upgrades.',
+    seedCost: 100,
   },
   {
     id: 'wallnut',
@@ -29,6 +32,7 @@ export const CATEGORY_DEFINITIONS = [
     icon: '🥔',
     typeLabel: 'Defense',
     description: 'Prepared for future durability upgrades.',
+    seedCost: 50,
   },
   {
     id: 'cherrybomb',
@@ -36,6 +40,7 @@ export const CATEGORY_DEFINITIONS = [
     icon: '🍒',
     typeLabel: 'Burst',
     description: 'Prepared for future burst abilities.',
+    seedCost: 150,
   },
 ];
 
@@ -54,6 +59,14 @@ export const UPGRADE_DEFINITIONS = {
         state.globalSunMultiplier += 0.15;
         state.weatherOwned += 1;
       },
+    },
+    {
+      id: 'garden-rake',
+      name: 'Garden Rake',
+      icon: '🪴',
+      description: 'Reserved for future board-control bonuses.',
+      baseCost: 75,
+      locked: true,
     },
   ],
   sunflower: [
@@ -103,6 +116,23 @@ export const UPGRADE_DEFINITIONS = {
       name: 'Pea Line',
       icon: '🫛',
       description: 'Combat systems will branch from here later.',
+      baseCost: 100,
+      locked: true,
+    },
+    {
+      id: 'repeater-line',
+      name: 'Repeater Line',
+      icon: '🎯',
+      description: 'Higher-rate projectile upgrades will plug in here later.',
+      baseCost: 200,
+      locked: true,
+    },
+    {
+      id: 'split-pea-line',
+      name: 'Split Pea Line',
+      icon: '🟢',
+      description: 'Directional fire upgrades are reserved for a future combat pass.',
+      baseCost: 325,
       locked: true,
     },
   ],
@@ -112,6 +142,15 @@ export const UPGRADE_DEFINITIONS = {
       name: 'Shell Stack',
       icon: '🟫',
       description: 'Defense upgrades will slot into this packet family later.',
+      baseCost: 50,
+      locked: true,
+    },
+    {
+      id: 'hard-shell',
+      name: 'Hard Shell',
+      icon: '🛡️',
+      description: 'Tankier front-line upgrades are reserved for later.',
+      baseCost: 125,
       locked: true,
     },
   ],
@@ -121,6 +160,15 @@ export const UPGRADE_DEFINITIONS = {
       name: 'Boom Kit',
       icon: '💥',
       description: 'Burst upgrades are reserved for a future combat pass.',
+      baseCost: 150,
+      locked: true,
+    },
+    {
+      id: 'chain-blast',
+      name: 'Chain Blast',
+      icon: '🔥',
+      description: 'Larger explosive upgrade branches will arrive later.',
+      baseCost: 275,
       locked: true,
     },
   ],
