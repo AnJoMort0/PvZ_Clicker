@@ -1,175 +1,131 @@
-export const DROP_INTERVAL_SECONDS = 12;
-export const BASE_DROP_AMOUNT = 10;
+export const BOARD_CELL_COUNT = 5;
+export const TOP_PACKET_COUNT = 5;
 
-export const CATEGORY_DEFINITIONS = [
+export const STARTING_SUN = 50;
+export const BASE_CLICK_SUN_VALUE = 15;
+export const BASE_PASSIVE_SUN_VALUE = 25;
+export const BASE_PASSIVE_INTERVAL_MS = 9000;
+export const MIN_PASSIVE_INTERVAL_MS = 2500;
+export const SKY_SUN_VALUE = 50;
+export const SKY_DROP_INTERVAL_MIN_MS = 16000;
+export const SKY_DROP_INTERVAL_MAX_MS = 28000;
+
+export const FLOWER_SUN_HOP_MS = 650;
+export const FLOWER_SUN_HOME_MS = 520;
+export const SKY_SUN_FALL_MS = 2200;
+export const SKY_SUN_HOME_MS = 560;
+
+export const SPRITES = {
+  sunflower: {
+    kind: 'image',
+    src: 'assets/plants/sunflower/sunflower.png',
+    frameWidth: 1344,
+    frameHeight: 1308,
+    frames: 1,
+  },
+  fertilizer: {
+    kind: 'image',
+    src: 'assets/upgrades/fertilizer.webp',
+    frames: 1,
+  },
+  coffeeBean: {
+    kind: 'image',
+    src: 'assets/upgrades/coffee_bean.webp',
+    frames: 1,
+  },
+  plantFood: {
+    kind: 'image',
+    src: 'assets/upgrades/plantfood.jpeg',
+    frames: 1,
+  },
+  twinSunflower: {
+    kind: 'emoji',
+    value: '🌻',
+    frames: 1,
+  },
+  empty: {
+    kind: 'emoji',
+    value: '🫥',
+    frames: 1,
+  },
+  sun: {
+    kind: 'emoji',
+    value: '☀️',
+    frames: 1,
+  },
+};
+
+export const PLANT_PACKET_DEFINITIONS = Array.from({ length: TOP_PACKET_COUNT }, (_, index) => {
+  if (index === 0) {
+    return {
+      id: 'sunflower',
+      name: 'Sunflower',
+      sprite: SPRITES.sunflower,
+      description:
+        'Steady, sunny, and smug about it. This is still the plant that pays everybody else around here.',
+    };
+  }
+
+  return {
+    id: `empty-slot-${index}`,
+    name: 'Empty Slot',
+    sprite: SPRITES.empty,
+    description: 'A proud vacancy. Something stronger can audition for this packet later.',
+    empty: true,
+  };
+});
+
+export const UPGRADE_DEFINITIONS = [
   {
-    id: 'environment',
-    name: 'Environment',
-    icon: '🪏',
-    typeLabel: 'Field',
-    description: 'Lawn-wide support upgrades and setup tools.',
-    seedCost: null,
+    id: 'twin-sunflower',
+    name: 'Twin Sunflower',
+    sprite: SPRITES.twinSunflower,
+    baseCost: 600,
+    maxPurchases: 1,
+    effectLabel: 'Doubles click value, passive value, and passive speed',
+    description:
+      'Two heads, twice the attitude. The regular Sunflower calls this showing off. The wallet calls it a crisis.',
+    apply(state) {
+      state.twinSunflower = true;
+    },
   },
   {
-    id: 'sunflower',
-    name: 'Sunflower',
-    icon: '🌻',
-    typeLabel: 'Producer',
-    description: 'Build your sun economy first.',
-    seedCost: 25,
+    id: 'fertilizer',
+    name: 'Fertilizer',
+    sprite: SPRITES.fertilizer,
+    baseCost: 100,
+    scaling: 1.55,
+    effectLabel: '+10 passive sun value',
+    description:
+      'The bag says "growth support." Your Sunflower hears "make richer suns and stop being shy about it."',
+    apply(state) {
+      state.passiveSunValue += 10;
+    },
   },
   {
-    id: 'peashooter',
-    name: 'Peashooter',
-    icon: '🫛',
-    typeLabel: 'Attack',
-    description: 'Prepared for future damage upgrades.',
-    seedCost: 100,
+    id: 'coffee-bean',
+    name: 'Coffee Bean',
+    sprite: SPRITES.coffeeBean,
+    baseCost: 140,
+    scaling: 1.6,
+    effectLabel: '+15% passive speed',
+    description:
+      'A jittery little bean that convinces your Sunflower naps are for weaklings and loading screens.',
+    apply(state) {
+      state.passiveIntervalMs *= 0.85;
+    },
   },
   {
-    id: 'wallnut',
-    name: 'Wall-nut',
-    icon: '🥔',
-    typeLabel: 'Defense',
-    description: 'Prepared for future durability upgrades.',
-    seedCost: 50,
-  },
-  {
-    id: 'cherrybomb',
-    name: 'Cherry Bomb',
-    icon: '🍒',
-    typeLabel: 'Burst',
-    description: 'Prepared for future burst abilities.',
-    seedCost: 150,
+    id: 'plant-food',
+    name: 'Plant Food',
+    sprite: SPRITES.plantFood,
+    baseCost: 90,
+    scaling: 1.5,
+    effectLabel: '+10 click sun value',
+    description:
+      'A glowing snack that turns every click into a brighter flex. The Sunflower loves being rewarded for drama.',
+    apply(state) {
+      state.clickSunValue += 10;
+    },
   },
 ];
-
-export const UPGRADE_DEFINITIONS = {
-  environment: [
-    {
-      id: 'weather-report',
-      name: 'Sunny Day',
-      icon: '☀️',
-      description: 'Boost all sun income by 15%.',
-      costLabel: 'Sun',
-      baseCost: 60,
-      scaling: 1.6,
-      effectLabel: '+15% all sun',
-      apply(state) {
-        state.globalSunMultiplier += 0.15;
-        state.weatherOwned += 1;
-      },
-    },
-    {
-      id: 'garden-rake',
-      name: 'Garden Rake',
-      icon: '🪴',
-      description: 'Reserved for future board-control bonuses.',
-      baseCost: 75,
-      locked: true,
-    },
-  ],
-  sunflower: [
-    {
-      id: 'sunflower-growth',
-      name: 'Twin Leaves',
-      icon: '🌿',
-      description: 'Add +1 passive sun each second.',
-      costLabel: 'Sun',
-      baseCost: 25,
-      scaling: 1.45,
-      effectLabel: '+1 passive',
-      apply(state) {
-        state.passivePerSecond += 1;
-      },
-    },
-    {
-      id: 'richer-sun',
-      name: 'Golden Petals',
-      icon: '✨',
-      description: 'Add +1 sun every click.',
-      costLabel: 'Sun',
-      baseCost: 20,
-      scaling: 1.45,
-      effectLabel: '+1 click',
-      apply(state) {
-        state.perClick += 1;
-      },
-    },
-    {
-      id: 'sky-drop',
-      name: 'Sky Bloom',
-      icon: '🌤️',
-      description: 'Create one stronger sky drop every cycle.',
-      costLabel: 'Sun',
-      baseCost: 40,
-      scaling: 1.45,
-      effectLabel: '+1 sky drop',
-      apply(state) {
-        state.dropOwned += 1;
-      },
-    },
-  ],
-  peashooter: [
-    {
-      id: 'pea-line',
-      name: 'Pea Line',
-      icon: '🫛',
-      description: 'Combat systems will branch from here later.',
-      baseCost: 100,
-      locked: true,
-    },
-    {
-      id: 'repeater-line',
-      name: 'Repeater Line',
-      icon: '🎯',
-      description: 'Higher-rate projectile upgrades will plug in here later.',
-      baseCost: 200,
-      locked: true,
-    },
-    {
-      id: 'split-pea-line',
-      name: 'Split Pea Line',
-      icon: '🟢',
-      description: 'Directional fire upgrades are reserved for a future combat pass.',
-      baseCost: 325,
-      locked: true,
-    },
-  ],
-  wallnut: [
-    {
-      id: 'shell-stack',
-      name: 'Shell Stack',
-      icon: '🟫',
-      description: 'Defense upgrades will slot into this packet family later.',
-      baseCost: 50,
-      locked: true,
-    },
-    {
-      id: 'hard-shell',
-      name: 'Hard Shell',
-      icon: '🛡️',
-      description: 'Tankier front-line upgrades are reserved for later.',
-      baseCost: 125,
-      locked: true,
-    },
-  ],
-  cherrybomb: [
-    {
-      id: 'boom-kit',
-      name: 'Boom Kit',
-      icon: '💥',
-      description: 'Burst upgrades are reserved for a future combat pass.',
-      baseCost: 150,
-      locked: true,
-    },
-    {
-      id: 'chain-blast',
-      name: 'Chain Blast',
-      icon: '🔥',
-      description: 'Larger explosive upgrade branches will arrive later.',
-      baseCost: 275,
-      locked: true,
-    },
-  ],
-};

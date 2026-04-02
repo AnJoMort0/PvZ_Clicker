@@ -9,59 +9,51 @@
   <body>
     <main class="game-shell">
       <section class="playfield" aria-label="PvZ clicker board">
-        <header class="top-chrome">
+        <div id="sun-particles" class="sun-particles" aria-hidden="true"></div>
+
+        <header class="top-bar">
           <div class="sun-display" aria-live="polite">
             <div class="sun-display__icon" aria-hidden="true">☀️</div>
-            <div id="sun-count" class="sun-display__value">0</div>
+            <div id="sun-count" class="sun-display__value">50</div>
           </div>
 
-          <div id="category-packets" class="seed-bank seed-bank--top" aria-label="Plant lines"></div>
+          <section class="seed-bank" aria-label="Plant line menu">
+            <div class="seed-bank__title">Seed Bank</div>
+            <div id="top-packets" class="seed-bank__row"></div>
+          </section>
+
+          <div class="rate-display" aria-live="polite">
+            <span class="rate-display__label">Passive</span>
+            <span class="rate-display__value"><span id="sun-per-second">0.0</span> sun/s</span>
+          </div>
         </header>
 
-        <div class="rate-display" aria-live="polite">
-          <span class="rate-display__icon" aria-hidden="true">☀️</span>
-          <span id="sun-per-second">0</span>
-          <span class="rate-display__unit">/s</span>
+        <div class="board">
+          <aside class="left-menu">
+            <h2 class="panel-title">Sunflower Upgrades</h2>
+            <div id="upgrade-packets" class="upgrade-list" aria-label="Sunflower upgrades"></div>
+          </aside>
+
+          <section class="lane-panel">
+            <h2 class="panel-title">Lane 1</h2>
+            <div class="lane-shell">
+              <table class="lane-grid" aria-label="Garden lane">
+                <tbody id="lane-grid"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <aside class="almanac-panel" aria-live="polite">
+            <h2 class="panel-title">Almanac</h2>
+            <h3 id="almanac-name" class="almanac-panel__name">Sunflower</h3>
+            <p id="almanac-stat" class="almanac-panel__stat"></p>
+            <p id="almanac-description" class="almanac-panel__description"></p>
+          </aside>
         </div>
 
-        <aside id="upgrade-packets" class="seed-bank seed-bank--side" aria-label="Selected upgrades"></aside>
-
-        <div class="stone-path" aria-hidden="true"></div>
-
-        <section class="lane-scene" aria-label="Garden lane">
-          <div class="lane-scene__grass" aria-hidden="true"></div>
-
-          <div class="lane-scene__mower" aria-hidden="true">
-            <span class="mower__handle"></span>
-            <span class="mower__body"></span>
-            <span class="mower__engine"></span>
-            <span class="mower__wheel mower__wheel--left"></span>
-            <span class="mower__wheel mower__wheel--right"></span>
-          </div>
-
-          <button id="sunflower" class="plant plant--sunflower" type="button" aria-label="Collect sun from sunflower">
-            <span class="plant__shadow"></span>
-            <span class="sunflower__bloom">🌻</span>
-            <span class="sunflower__stem"></span>
-            <span class="sunflower__leaf sunflower__leaf--left"></span>
-            <span class="sunflower__leaf sunflower__leaf--right"></span>
-          </button>
-
-          <div id="peashooter-plant" class="plant plant--peashooter" aria-hidden="true">
-            <span class="plant__shadow"></span>
-            <span class="peashooter__head"></span>
-            <span class="peashooter__snout"></span>
-            <span class="peashooter__stem"></span>
-            <span class="peashooter__leaf peashooter__leaf--left"></span>
-            <span class="peashooter__leaf peashooter__leaf--right"></span>
-          </div>
-
-          <span class="pea pea--one" aria-hidden="true"></span>
-          <span class="pea pea--two" aria-hidden="true"></span>
-          <span class="pea pea--three" aria-hidden="true"></span>
-        </section>
-
-        <p id="event-log" class="sr-only">Your sunflower is ready. Gather sun and start building a lawn economy.</p>
+        <p id="status-line" class="status-line" aria-live="polite">
+          One lane, one Sunflower, and a frankly alarming amount of ambition.
+        </p>
       </section>
     </main>
 

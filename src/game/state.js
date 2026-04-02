@@ -1,32 +1,35 @@
-import { CATEGORY_DEFINITIONS, UPGRADE_DEFINITIONS } from '../config/gameData.js';
+import {
+  BASE_CLICK_SUN_VALUE,
+  BASE_PASSIVE_INTERVAL_MS,
+  BASE_PASSIVE_SUN_VALUE,
+  PLANT_PACKET_DEFINITIONS,
+  STARTING_SUN,
+  UPGRADE_DEFINITIONS,
+} from '../config/gameData.js';
 
 export function createInitialState() {
   const ownedUpgrades = {};
   const upgradeCosts = {};
 
-  Object.values(UPGRADE_DEFINITIONS)
-    .flat()
-    .forEach((upgrade) => {
-      ownedUpgrades[upgrade.id] = 0;
-      if (!upgrade.locked) {
-        upgradeCosts[upgrade.id] = upgrade.baseCost;
-      }
-    });
+  UPGRADE_DEFINITIONS.forEach((upgrade) => {
+    ownedUpgrades[upgrade.id] = 0;
+    upgradeCosts[upgrade.id] = upgrade.baseCost;
+  });
 
   return {
-    sun: 0,
-    perClick: 1,
-    passivePerSecond: 0,
-    dropOwned: 0,
-    weatherOwned: 0,
-    globalSunMultiplier: 1,
-    selectedCategory: CATEGORY_DEFINITIONS[1].id,
+    sun: STARTING_SUN,
+    clickSunValue: BASE_CLICK_SUN_VALUE,
+    passiveSunValue: BASE_PASSIVE_SUN_VALUE,
+    passiveIntervalMs: BASE_PASSIVE_INTERVAL_MS,
+    selectedPacketId: PLANT_PACKET_DEFINITIONS[0].id,
+    hoverCardId: `packet:${PLANT_PACKET_DEFINITIONS[0].id}`,
+    twinSunflower: false,
     ownedUpgrades,
     upgradeCosts,
-    eventText: 'Your sunflower is ready. Gather sun and start building a lawn economy.',
+    eventText: 'One lane, one Sunflower, and a frankly alarming amount of ambition.',
+    particles: [],
+    passiveTimerMs: 0,
+    skyTimerMs: 0,
+    nextSkyDropDelayMs: 0,
   };
-}
-
-export function getCategory(categoryId) {
-  return CATEGORY_DEFINITIONS.find((category) => category.id === categoryId);
 }
